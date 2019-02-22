@@ -1,0 +1,103 @@
+package Model;
+
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.OrdinazioneBean;
+import Model.OrdinazioneModel;
+import Model.OrdinazioneModelDM;
+import Model.OrdineBean;
+import Model.OrdineModel;
+import Model.OrdineModelDM;
+import Model.ProdottoBean;
+import Model.ProdottoInOrdineBean;
+import Model.ProdottoInOrdineModelDM;
+import Model.ProdottoModel;
+
+@SuppressWarnings("hiding")
+public class Carrello<ProdottoInCarrello> implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	List<ProdottoInCarrello> list;
+	
+	public Carrello() {
+		list = new ArrayList<ProdottoInCarrello>(); //costruttore
+	}
+	
+	public boolean isEmpty(){
+		return list.isEmpty();
+	}
+	
+	public void addProd(ProdottoInCarrello prodotto) {
+		//controllo se esiste ed eventualmente incremento quantita
+		boolean incrementato = false;
+		for(ProdottoInCarrello p : list){
+			if(p.equals(prodotto)){
+				((Model.ProdottoInCarrello)p).setQuantita(((Model.ProdottoInCarrello)p).getQuantita() + 1);
+				incrementato = true;
+				break;
+			}
+		}
+		//in caso contrario aggiungo
+		if(!incrementato)
+			list.add(prodotto);
+	}
+	
+	public void rimElemento(int id_prodotto) {
+		for(ProdottoInCarrello p : list) {
+			if(((Model.ProdottoInCarrello)p).getId_prodotto() == id_prodotto) {
+				((Model.ProdottoInCarrello)p).setQuantita(((Model.ProdottoInCarrello)p).getQuantita() - 1);
+				if(((Model.ProdottoInCarrello)p).getQuantita() <= 0)
+					list.remove(p);
+				break;
+			}	
+		}
+	}
+	
+	public List<ProdottoInCarrello> ottieniElem() {
+		return list;
+	}
+	
+	public float getTotale(){
+		float totale = 0;
+		for(ProdottoInCarrello p : list){
+			totale += ((Model.ProdottoInCarrello)p).getPrezzo_compl();
+		}
+		return totale;
+	}
+	
+	public void acquista(String carta_credito, int utente, int indirizzo) throws SQLException {
+		ProdottoModel<ProdottoBean> prodottoModel = new ProdottoInOrdineModelDM();
+		OrdineModel<OrdineBean> ordineModel = new OrdineModelDM();
+		OrdinazioneModel ordinazioneModel= new OrdinazioneModelDM();
+		OrdineBean ordBean = new OrdineBean();
+		ordBean.setCarta_credito(carta_credito);
+		ordBean.setUtente(utente);
+		ordBean.setIndirizzo(indirizzo);
+		ordBean.setPagato(true);
+		ordBean.setTotale(this.getTotale());
+		ordBean.setData(new java.sql.Date(new java.util.Date().getTime()));	//getTime di java.util.Date restituisce long al costruttore di java.sql.Date
+		int idOrdine = ordineModel.doSave(ordBean);
+		
+		for(ProdottoInCarrello prod : list){
+			int id;
+			ProdottoInOrdineBean prodBean = new ProdottoInOrdineBean();
+			prodBean.setId_prodotto(((Model.ProdottoInCarrello)prod).getId_prodotto());
+			prodBean.setPrezzo_compl(((Model.ProdottoInCarrello)prod).getPrezzo_compl());
+			prodBean.setIva(((Model.ProdottoInCarrello)prod).getIva());
+			prodBean.setQuantita(((Model.ProdottoInCarrello)prod).getQuantita());
+			prodBean.setTaglia(((Model.ProdottoInCarrello)prod).getTaglia().toUpperCase());
+			prodBean.setReso(false);
+			id = prodottoModel.doSave(prodBean);
+			OrdinazioneBean ordinazioneBean = new OrdinazioneBean(idOrdine, id);
+			ordinazioneModel.doSave(ordinazioneBean);
+		}
+
+		list = new ArrayList<ProdottoInCarrello>();
+	}	
+}
