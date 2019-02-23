@@ -21,40 +21,27 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/ProcediAcquisto")
 public class ProcediAcquisto extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProcediAcquisto() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		Carrello<ProdottoInCarrello> cart = (Carrello<ProdottoInCarrello>)request.getSession().getAttribute("cart");
+		Carrello<ProdottoInCarrello> cart = (Carrello<ProdottoInCarrello>) request.getSession().getAttribute("cart");
 		IndirizzoModel model = new IndirizzoModelDM();
-		HttpSession session = request.getSession();
 		
 		if((cart == null) || (cart.isEmpty())){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("carrello.jsp");
 			dispatcher.forward(request, response);
 			System.out.println("carrello nullo o vuoto");
-		} else if(session.getAttribute("id") == null){
+		} else if(request.getSession().getAttribute("id") == null){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			int id = (int) session.getAttribute("id");
+			int id = (int) request.getSession().getAttribute("id");
 			Collection<IndirizzoBean> indirizzi = new ArrayList<IndirizzoBean>();
 			System.out.println(id);
 			try {
 				indirizzi = model.doRetrieveByUtente(id);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			request.getSession().setAttribute("indirizzi", indirizzi);

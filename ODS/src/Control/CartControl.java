@@ -18,34 +18,26 @@ import Model.*;
  */
 @WebServlet("/CartControl")
 public class CartControl extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
 	static ProdottoModel<ProdottoBean> model = new ProdottoModelDM();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CartControl() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Carrello<ProdottoBean> cart = (Carrello<ProdottoBean>)request.getSession().getAttribute("cart");
-		
-		
+
 		if(cart == null) {
 			cart = new Carrello<ProdottoBean>();
 			request.getSession().setAttribute("cart", cart);
 		}
 		
 		String invia = request.getParameter("invia");
-		System.out.println(invia);
 		if(invia != null) {
 			if(invia.equalsIgnoreCase("Aggiungi al carrello")) {
-				System.out.println("ciao");
+				System.out.println("aggiungere");
 				ProdottoBean prod = (ProdottoBean) request.getSession().getAttribute("product");
 				String taglia = (String) request.getParameter("beantype");
 				System.out.println(taglia);

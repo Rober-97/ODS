@@ -15,13 +15,9 @@ import Model.*;
 @WebServlet("/ConfermaAcquistoControl")
 public class ConfermaAcquistoControl extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("c");
 		IndirizzoBean indirizzo = new IndirizzoBean();
 		CartaDiCreditoBean carta = new CartaDiCreditoBean();
 		int utente;
