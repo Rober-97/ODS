@@ -79,7 +79,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 			statement.setString(2, utente.getCognome());
 			statement.setString(3, utente.getEmail());
 			statement.setString(4, CalculateHash(utente.getPassword()));
-			statement.setInt(5, utente.getTipo());
+			statement.setBoolean(5, utente.isAmministratore());
 			statement.setDate(6, (Date) utente.getData_nascita());
 			statement.executeUpdate();
 			
@@ -106,7 +106,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 			statement.setString(2, utente.getCognome());
 			statement.setString(3, utente.getEmail());
 			statement.setString(4, utente.getPassword());
-			statement.setInt(5, utente.getTipo());
+			statement.setBoolean(5, utente.isAmministratore());
 			statement.setDate(6, (Date) utente.getData_nascita());
 			statement.setInt(7, utente.getId_utente());
 			statement.executeUpdate();
@@ -270,8 +270,8 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	}
 	
 	
-	public static int getTipo(String email, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		int flag = 0;
+	public static boolean isAmministratore(String email, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		boolean flag = false;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		UtenteBean bean = new UtenteBean();
@@ -293,7 +293,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 
 			ResultSet rs = preparedStatement.executeQuery(); // la query viene eseguita
 			if(rs.next())
-			flag = rs.getInt("tipo");
+			flag = rs.getBoolean("isAmministratore");
 			
 		} finally {
 
@@ -341,7 +341,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 		bean.setCognome(rs.getString("cognome"));
 		bean.setEmail(rs.getString("email"));
 		bean.setPassword(rs.getString("password"));
-		bean.setTipo(rs.getInt("tipo"));
+		bean.setAmministratore(rs.getBoolean("isAmministratore"));
 		bean.setData_nascita(rs.getDate("data_nascita"));
 		
 		return bean;

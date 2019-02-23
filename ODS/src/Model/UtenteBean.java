@@ -11,7 +11,7 @@ public class UtenteBean implements Serializable {
 	private String cognome;
 	private String email;
 	private String password;
-	private int tipo ;	//1=cliente, 2=magazziniere, 3=gestore marketing, 4=proprietario
+	private boolean isAmministratore;
 	private Date data_nascita;
 	
 	public UtenteBean() {
@@ -78,17 +78,14 @@ public class UtenteBean implements Serializable {
 	}
 
 
-
-	public int getTipo() {
-		return tipo;
+	public boolean isAmministratore() {
+		return isAmministratore;
 	}
 
 
-
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
+	public void setAmministratore(boolean isAmministratore) {
+		this.isAmministratore = isAmministratore;
 	}
-
 
 
 	public Date getData_nascita() {
