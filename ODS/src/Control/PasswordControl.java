@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import Model.*;
 
 /*
- * 
+ * implementa la modifica della password, è chiamata da modificaPassword.jsp
  */
 @WebServlet("/PasswordControl")
 public class PasswordControl extends HttpServlet {
