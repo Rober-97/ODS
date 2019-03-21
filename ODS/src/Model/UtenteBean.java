@@ -1,113 +1,94 @@
 package Model;
-import java.io.Serializable;
 import java.util.Date;
 
-public class UtenteBean implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class UtenteBean {
 
-	private int id_utente;
+	private int idUtente;
 	private String nome;
 	private String cognome;
 	private String email;
 	private String password;
-	private boolean isAmministratore;
-	private Date data_nascita;
+	private boolean amministratore;
+	private Date dataNascita;
 	
 	public UtenteBean() {
 		
 	}
-
-		
-	public int getId_utente() {
-		return id_utente;
+	
+	public int getIdUtente() {
+		return idUtente;
 	}
 
-
-
-	public void setId_utente(int id_utente) {
-		this.id_utente = id_utente;
+	public void setIdUtente(int idUtente) {
+		this.idUtente = idUtente;
 	}
-
-
 
 	public String getNome() {
 		return nome;
 	}
 
-
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
 
 	public String getCognome() {
 		return cognome;
 	}
 
-
-
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
-
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-
 	public boolean isAmministratore() {
-		return isAmministratore;
+		return amministratore;
 	}
 
-
-	public void setAmministratore(boolean isAmministratore) {
-		this.isAmministratore = isAmministratore;
+	public void setAmministratore(boolean amministratore) {
+		this.amministratore = amministratore;
 	}
 
-
-	public Date getData_nascita() {
-		return data_nascita;
+	public Date getDataNascita() {
+		return dataNascita;
 	}
-
-
-
-	public void setData_nascita(Date data_nascita) {
-		this.data_nascita = data_nascita;
+	
+	public void setDataNascita(Date dataNascita) {
+		this.dataNascita = dataNascita;
 	}
-
 	
 	@Override
+	/**
+	 * @return true if the attribute idUtente is equals
+	 */
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		UtenteBean other = (UtenteBean) obj;
-		if (other.id_utente != id_utente)
+		if (other.idUtente != idUtente)
 				return false;
 		return true;
+	}
+	
+	@Override
+	public String toString(){
+		return "ID: " + idUtente + ", Nome: " + nome + ", Cognome: " + cognome + ", Email: " + email + ", Password: "
+				+ password + ", IsAmmministartore: " + amministratore + ", Data di nascita: " + dataNascita;
 	}
 }
