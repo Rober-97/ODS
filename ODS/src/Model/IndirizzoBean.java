@@ -2,7 +2,7 @@ package Model;
 
 public class IndirizzoBean {
 	
-	private int id_indirizzo;
+	private int idIndirizzo;
 	private String nome;
 	private String cognome;
 	private String cap;
@@ -13,17 +13,12 @@ public class IndirizzoBean {
 	private int utente;
 
 		
-	public IndirizzoBean(){
-		
+	public int getIdIndirizzo() {
+		return idIndirizzo;
 	}
 
-	
-	public int getId_indirizzo() {
-		return id_indirizzo;
-	}
-
-	public void setId_indirizzo(int id_indirizzo) {
-		this.id_indirizzo = id_indirizzo;
+	public void setIdIndirizzo(int idIndirizzo) {
+		this.idIndirizzo = idIndirizzo;
 	}
 
 	public String getNome() {
@@ -90,15 +85,25 @@ public class IndirizzoBean {
 		this.utente = utente;
 	}
 
-	public boolean equals(Object otherObject)
-	{
+	public boolean equals(Object otherObject){
 		if(otherObject == null)
 			return false;
 		if(this.getClass() != otherObject.getClass())
 			return false;
 		IndirizzoBean a = (IndirizzoBean) otherObject;
-		if(this.id_indirizzo != a.id_indirizzo)
+		if(this.idIndirizzo != a.getIdIndirizzo())
 			return false;
+		if(this.provincia != a.getProvincia())
+			return false;
+		if(this.cap != a.getCap())
+			return false;
+		if(this.citta != a.getCitta())
+			return false;
+		if(this.via != a.getVia())
+			return false;
+		if(this.cellulare != a.getCellulare())
+			return false;
+		
 		return true;
 	}
 }

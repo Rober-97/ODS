@@ -12,7 +12,7 @@ import Model.DriverManagerConnectionPool;
 public class IndirizzoModelDM implements IndirizzoModel<IndirizzoBean>{
 
 	private static final String TABLE ="INDIRIZZO";
-//
+
 	@Override
 	public IndirizzoBean doRetrieveByKey(int id_indirizzo) throws SQLException {
 		Connection connection = null;
@@ -107,6 +107,7 @@ public class IndirizzoModelDM implements IndirizzoModel<IndirizzoBean>{
 			statement.setString(6, indirizzo.getVia());
 			statement.setString(7, indirizzo.getCellulare());
 			statement.setInt(8, indirizzo.getUtente());
+			statement.setInt(9, indirizzo.getIdIndirizzo());
 			statement.executeUpdate();
 
 			connection.commit();
@@ -162,52 +163,11 @@ public class IndirizzoModelDM implements IndirizzoModel<IndirizzoBean>{
 		}
 		return listaBean;
 	}
-	
-	public static boolean checkIndirizzo(String via, String citta) throws SQLException { // verifica se utente esiste gi� 
-		boolean flag =false;
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		String checkSQL="Select citta, via from "+TABLE+" where  via= ? and citta =?;" ;
 		
-		try {
-			try {
-				connection = DriverManagerConnectionPool.getConnection();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // crea la connessione se non esiste
-			preparedStatement = connection.prepareStatement(checkSQL);
-
-			preparedStatement.setString(1,via);
-			preparedStatement.setString(2, citta);
-		
-
-			System.out.println("validate..." + preparedStatement.toString());
-
-			ResultSet rs = preparedStatement.executeQuery(); // la query viene eseguita
-			
-			flag=rs.next();
-			
-		} finally {
-
-			try {
-				if(preparedStatement != null ) {
-					preparedStatement.close(); // rilascio risorse
-				}
-			}
-			finally {
-				DriverManagerConnectionPool.releaseConnection(connection); // evita di far reinstanziare ogni volta una connection
-				// la connection viene "conservata" nella collection Pool
-			}
-		}
-
-		return flag;
-	}
-	
 	private static IndirizzoBean getBean(ResultSet rs) throws SQLException{
 		IndirizzoBean bean = new IndirizzoBean();
 		
-		bean.setId_indirizzo(rs.getInt("id_indirizzo"));
+		bean.setIdIndirizzo(rs.getInt("id_indirizzo"));
 		bean.setNome(rs.getString("nome"));
 		bean.setCognome(rs.getString("cognome"));
 		bean.setCap(rs.getString("cap"));
