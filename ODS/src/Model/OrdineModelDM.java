@@ -17,7 +17,7 @@ public class OrdineModelDM implements OrdineModel{
 	public OrdineBean doRetrieveByKey(int id_ordine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
-		OrdineBean bean = new OrdineBean();
+		OrdineBean bean = null;
 		
 		String queryString ="Select * FROM " + TABLE + " WHERE id_ordine = ?";
 		
@@ -59,48 +59,45 @@ public class OrdineModelDM implements OrdineModel{
 	}
 
 	@Override
-	public int doSave(OrdineBean ordine) throws SQLException {	//restituisce l'id auto_increment della tupla inserita
+	/**
+	 * Salva l'ordine ordine nel db e set l'attributo id dell'oggetto ordine con il valore generato dal db
+	 */
+	public void doSave(OrdineBean ordine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
-		PreparedStatement statement_1=null;
-		int id;
-		String insertString=" INSERT INTO " + TABLE + " (data, pagato, carta_credito, "
-				+ "indirizzo, utente, totale, tipo_spedizione, costo_spedizione) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		String insertString=" INSERT INTO " + TABLE + " (data, carta_credito, "
+				+ "indirizzo, utente, totale) VALUES(?, ?, ?, ?, ?)";
 		
 		try{ 
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
-			statement = (PreparedStatement) connection.prepareStatement(insertString, statement.RETURN_GENERATED_KEYS);
+			statement = (PreparedStatement) connection.prepareStatement(insertString);
 
 			statement.setDate(1, ordine.getData());
-			statement.setBoolean(2, ordine.isPagato());
-			statement.setString(3, ordine.getCarta_credito());
-			statement.setInt(4, ordine.getIndirizzo());
-			statement.setInt(5, ordine.getUtente());
-			statement.setFloat(6, ordine.getTotale());
-			statement.setString(7, ordine.getTipo_spedizione());
-			statement.setFloat(8, ordine.getCosto_spedizione());
-			id = statement.executeUpdate();
-			System.out.println("ordine" + id);
+			statement.setString(2, ordine.getCartaCredito());
+			statement.setInt(3, ordine.getIndirizzo());
+			statement.setInt(4, ordine.getUtente());
+			statement.setFloat(5, ordine.getTotale());
+			statement.executeUpdate();
 			connection.commit();
 		} finally{
 			if(statement!= null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
+		
 		String insertString_1="SELECT last_insert_id() as last_id from " + TABLE + ";";
 		try{ 
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
-			statement_1 = (PreparedStatement) connection.prepareStatement(insertString_1);
-			ResultSet rs = statement_1.executeQuery();
+			statement = (PreparedStatement) connection.prepareStatement(insertString_1);
+			ResultSet rs = statement.executeQuery();
 			rs.next();
-			id = rs.getInt("last_id");
+			ordine.setIdOrdine(rs.getInt("last_id"));
 			
 			connection.commit();
 		} finally{
-			if(statement_1 != null) statement_1.close();
+			if(statement != null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
-
-		return id;
 	}
 
 	@Override
@@ -108,21 +105,18 @@ public class OrdineModelDM implements OrdineModel{
 		Connection connection = null;
 		PreparedStatement statement=null;
 
-		String insertString="UPDATE" + TABLE + " SET data = ?, pagato = ?, carta_credito = ?, "
-				+ "indirizzo = ?, utente = ?, totale = ?, tipo_spedizione = ?, costo_spedizione = ? WHERE id_ordine = ?;";
+		String insertString="UPDATE" + TABLE + " SET data = ?, carta_credito = ?, "
+				+ "indirizzo = ?, utente = ?, totale = ? WHERE id_ordine = ?;";
 		
 		try{ 
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(insertString);
 
 			statement.setDate(1, ordine.getData());
-			statement.setBoolean(2, ordine.isPagato());
-			statement.setString(3, ordine.getCarta_credito());
-			statement.setInt(4, ordine.getIndirizzo());
-			statement.setInt(5, ordine.getUtente());
-			statement.setFloat(6, ordine.getTotale());
-			statement.setString(7, ordine.getTipo_spedizione());
-			statement.setFloat(8, ordine.getCosto_spedizione());
+			statement.setString(2, ordine.getCartaCredito());
+			statement.setInt(3, ordine.getIndirizzo());
+			statement.setInt(4, ordine.getUtente());
+			statement.setFloat(5, ordine.getTotale());
 			statement.executeUpdate();
 			
 			connection.commit();
@@ -132,8 +126,6 @@ public class OrdineModelDM implements OrdineModel{
 		}
 	}
 	
-	
-
 	@Override
 	public boolean doDelete(int id_ordine) throws SQLException {
 		Connection connection = null;
@@ -184,15 +176,12 @@ public class OrdineModelDM implements OrdineModel{
 	private static OrdineBean getBean(ResultSet rs) throws SQLException{
 		OrdineBean bean = new OrdineBean();
 		
-		bean.setId_ordine(rs.getInt("id_ordine"));
+		bean.setIdOrdine(rs.getInt("id_ordine"));
 		bean.setData(rs.getDate("data"));
-		bean.setPagato(rs.getBoolean("pagato"));
-		bean.setCarta_credito(rs.getString("carta_credito"));
+		bean.setCartaCredito(rs.getString("carta_credito"));
 		bean.setIndirizzo(rs.getInt("indirizzo"));
 		bean.setUtente(rs.getInt("utente"));
 		bean.setTotale(rs.getFloat("totale"));
-		bean.setTipo_spedizione(rs.getString("tipo_spedizione"));
-		bean.setCosto_spedizione(rs.getFloat("costo_spedizione"));
 		
 		return bean;
 	}
