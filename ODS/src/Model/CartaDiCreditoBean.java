@@ -3,77 +3,61 @@ import java.sql.Date;
 
 public class CartaDiCreditoBean {
 //
-	private String numero_carta;
-	private Date data_scadenza;
+	private String numeroCarta;
+	private Date dataScadenza;
 	private String cvv;
-	private String nome_proprietario;
-	private String cognome_proprietario;
+	private String nomeProprietario;
+	private String cognomeProprietario;
 	private int utente;
 
-	public CartaDiCreditoBean(){
-		
-	}
-		
 	
-	public String getNumero_carta() {
-		return numero_carta;
+	public String getNumeroCarta() {
+		return numeroCarta;
 	}
 
-
-	public void setNumero_carta(String numero_carta) {
-		this.numero_carta = numero_carta;
+	public void setNumeroCarta(String numeroCarta) {
+		this.numeroCarta = numeroCarta;
 	}
 
-
-	public Date getData_scadenza() {
-		return data_scadenza;
+	public Date getDataScadenza() {
+		return dataScadenza;
 	}
 
-
-	public void setData_scadenza(Date data_scadenza) {
-		this.data_scadenza = data_scadenza;
+	public void setDataScadenza(Date dataScadenza) {
+		this.dataScadenza = dataScadenza;
 	}
-
 
 	public String getCvv() {
 		return cvv;
 	}
 
-
 	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
 
-
-	public String getNome_proprietario() {
-		return nome_proprietario;
+	public String getNomeProprietario() {
+		return nomeProprietario;
 	}
 
-
-	public void setNome_proprietario(String nome_proprietario) {
-		this.nome_proprietario = nome_proprietario;
+	public void setNomeProprietario(String nomeProprietario) {
+		this.nomeProprietario = nomeProprietario;
 	}
 
-
-	public String getCognome_proprietario() {
-		return cognome_proprietario;
+	public String getCognomeProprietario() {
+		return cognomeProprietario;
 	}
 
-
-	public void setCognome_proprietario(String cognome_proprietario) {
-		this.cognome_proprietario = cognome_proprietario;
+	public void setCognomeProprietario(String cognomeProprietario) {
+		this.cognomeProprietario = cognomeProprietario;
 	}
-
 
 	public int getUtente() {
 		return utente;
 	}
 
-
 	public void setUtente(int utente) {
 		this.utente = utente;
 	}
-
 
 	public boolean equals(Object obj){
 		if(obj == null)
@@ -81,7 +65,7 @@ public class CartaDiCreditoBean {
 		if(this.getClass() != obj.getClass())
 			return false;
 		CartaDiCreditoBean other = (CartaDiCreditoBean) obj;
-		if(this.numero_carta != other.numero_carta)
+		if(this.numeroCarta != other.getNumeroCarta())
 			return false;
 		
 		return true;

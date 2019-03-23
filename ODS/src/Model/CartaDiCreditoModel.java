@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface CartaDiCreditoModel<CartaDiCreditoBean> {
 	
-	public CartaDiCreditoBean doRetrieveByKey(String numero_carta) throws SQLException;
+	public CartaDiCreditoBean doRetrieveByKey(String numeroCarta) throws SQLException;
 	
 	public Collection<CartaDiCreditoBean> doRetrieveAll() throws SQLException;
 	
@@ -14,8 +14,7 @@ public interface CartaDiCreditoModel<CartaDiCreditoBean> {
 	
 	public void doUpdate(CartaDiCreditoBean carta) throws SQLException;
 	
-	public boolean doDelete(String numero_carta) throws SQLException;
+	public boolean doDelete(String numeroCarta) throws SQLException;
 	
-	public ArrayList<Model.CartaDiCreditoBean> doRetrieveByUtente(int utente) throws SQLException;
-
+	public ArrayList<CartaDiCreditoBean> doRetrieveByUtente(int utente) throws SQLException;
 }

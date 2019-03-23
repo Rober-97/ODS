@@ -14,17 +14,17 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 	private static final String TABLE ="CARTA_CREDITO";
 
 	@Override
-	public CartaDiCreditoBean doRetrieveByKey(String numero_carta) throws SQLException {
+	public CartaDiCreditoBean doRetrieveByKey(String numeroCarta) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
-		CartaDiCreditoBean bean = new CartaDiCreditoBean();
+		CartaDiCreditoBean bean = null;
 		
 		String queryString ="Select * FROM " + TABLE + " WHERE numero_carta = ?";
 		
 		try{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(queryString);
-			statement.setString(1, numero_carta);
+			statement.setString(1, numeroCarta);
 			ResultSet result = statement.executeQuery();
 			while(result.next()){
 				bean = getBean(result);
@@ -59,7 +59,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 	}
 
 	@Override
-	public void doSave(CartaDiCreditoBean carta ) throws SQLException {
+	public void doSave(CartaDiCreditoBean carta) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
 
@@ -70,11 +70,11 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(insertString);
 
-			statement.setString(1, carta.getNumero_carta());
-			statement.setDate(2, carta.getData_scadenza());
+			statement.setString(1, carta.getNumeroCarta());
+			statement.setDate(2, carta.getDataScadenza());
 			statement.setString(3, carta.getCvv());
-			statement.setString(4, carta.getNome_proprietario());
-			statement.setString(5, carta.getCognome_proprietario());
+			statement.setString(4, carta.getNomeProprietario());
+			statement.setString(5, carta.getCognomeProprietario());
 			statement.setInt(6, carta.getUtente());
 			statement.executeUpdate();
 			
@@ -96,11 +96,11 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 		try {
 			connection = DriverManagerConnectionPool.getConnection();
 			statement = connection.prepareStatement(insertSQL);
-			statement.setDate(1, carta.getData_scadenza());
+			statement.setDate(1, carta.getDataScadenza());
 			statement.setString(2, carta.getCvv());
-			statement.setString(3, carta.getNome_proprietario());
-			statement.setString(4, carta.getCognome_proprietario());
-			statement.setString(5, carta.getNumero_carta());
+			statement.setString(3, carta.getNomeProprietario());
+			statement.setString(4, carta.getCognomeProprietario());
+			statement.setString(5, carta.getNumeroCarta());
 			statement.executeUpdate();
 
 			connection.commit();
@@ -111,7 +111,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 	}
 
 	@Override
-	public boolean doDelete(String numero_carta) throws SQLException {
+	public boolean doDelete(String numeroCarta) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
 		int result = 0;
@@ -121,7 +121,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 		try {
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(deleteString);
-			statement.setString(1, numero_carta);
+			statement.setString(1, numeroCarta);
 			result = statement.executeUpdate();
 			
 			connection.commit();
@@ -156,19 +156,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 		return bean;
 	}
 
-	private static CartaDiCreditoBean getBean(ResultSet rs) throws SQLException{
-		CartaDiCreditoBean bean = new CartaDiCreditoBean();
-		
-		bean.setNumero_carta(rs.getString("numero_carta"));
-		bean.setData_scadenza(rs.getDate("data_scadenza"));
-		bean.setCvv(rs.getString("cvv"));
-		bean.setNome_proprietario(rs.getString("nome_proprietario"));
-		bean.setCognome_proprietario(rs.getString("cognome_proprietario"));
-		bean.setUtente(rs.getInt("utente"));
-		
-		return bean;
-	}	
-	public static boolean checkCarta(String nCarta ) throws SQLException { // verifica se carta esiste gia 
+	public static boolean checkCarta(String numeroCarta) throws SQLException { // verifica se carta esiste gia 
 		boolean flag =false;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -183,7 +171,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 			} // crea la connessione se non esiste
 			preparedStatement = connection.prepareStatement(checkSQL);
 
-			preparedStatement.setString(1,nCarta);
+			preparedStatement.setString(1,numeroCarta);
 		
 
 			System.out.println("validate..." + preparedStatement.toString());
@@ -207,5 +195,17 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 
 		return flag;
 	}
-	
+
+	private static CartaDiCreditoBean getBean(ResultSet rs) throws SQLException{
+		CartaDiCreditoBean bean = new CartaDiCreditoBean();
+		
+		bean.setNumeroCarta(rs.getString("numero_carta"));
+		bean.setDataScadenza(rs.getDate("data_scadenza"));
+		bean.setCvv(rs.getString("cvv"));
+		bean.setNomeProprietario(rs.getString("nome_proprietario"));
+		bean.setCognomeProprietario(rs.getString("cognome_proprietario"));
+		bean.setUtente(rs.getInt("utente"));
+		
+		return bean;
+	}	
 }
