@@ -19,17 +19,17 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	private static final String TABLE ="UTENTE";
 
 	@Override
-	public UtenteBean doRetrieveByKey(int id_utente) throws SQLException {
+	public UtenteBean doRetrieveByKey(int idUtente) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
-		UtenteBean bean = new UtenteBean();
+		UtenteBean bean = null;
 		
 		String queryString ="Select * FROM " + TABLE + " WHERE id_utente = ?";
 		
 		try{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(queryString);
-			statement.setInt(1, id_utente);
+			statement.setInt(1, idUtente);
 			ResultSet result = statement.executeQuery();
 			while(result.next()){
 				bean = getBean(result);
@@ -64,26 +64,43 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	}
 
 	@Override
+	/**
+	 * @param <em>utente</em> The user to be saved;
+	 * Save the user into DB and set the attribute <em>idUtente</em> of <em>utente</em> to the id allocated in the DB.
+	 */
 	public void doSave(UtenteBean utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		Connection connection = null;
 		PreparedStatement statement=null;
 
-		String insertString=" INSERT INTO " + TABLE + " (nome, cognome, email, "
-				+ "password, tipo, data_nascita) VALUES(?, ?, ?, ?, ?, ?)";
+		String insertString1=" INSERT INTO " + TABLE + " (nome, cognome, email, "
+				+ "password, amministratore, data_nascita) VALUES(?, ?, ?, ?, ?, ?)";
 		
 		try{ 
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
-			statement = (PreparedStatement) connection.prepareStatement(insertString);
+			statement = (PreparedStatement) connection.prepareStatement(insertString1);
 
 			statement.setString(1, utente.getNome());
 			statement.setString(2, utente.getCognome());
 			statement.setString(3, utente.getEmail());
-			statement.setString(4, CalculateHash(utente.getPassword()));
+			statement.setString(4, utente.getPassword());
 			statement.setBoolean(5, utente.isAmministratore());
-			statement.setDate(6, (Date) utente.getData_nascita());
+			statement.setDate(6, (Date) utente.getDataNascita());
 			statement.executeUpdate();
 			
 			connection.commit();
+		} finally{
+			if(statement!= null) statement.close();
+			DriverManagerConnectionPool.releaseConnection(connection);
+		}
+		
+		String insertString2 = "SELECT last_insert_id() as last from " + TABLE + ";";
+		try{
+			connection = (Connection) DriverManagerConnectionPool.getConnection();
+			statement = (PreparedStatement) connection.prepareStatement(insertString2);
+			
+			ResultSet rs = statement.executeQuery();
+			rs.next();
+			utente.setIdUtente(rs.getInt("last"));
 		} finally{
 			if(statement!= null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
@@ -96,7 +113,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 		PreparedStatement statement = null;
 
 		String insertSQL = "UPDATE " + TABLE + " SET nome = ?, cognome = ?, email = ?,"
-				+ " password = ?, tipo = ?, data_nascita = ? WHERE id_utente = ?;";
+				+ " password = ?, amministratore = ?, data_nascita = ? WHERE id_utente = ?;";
 
 		try {
 			connection = DriverManagerConnectionPool.getConnection();
@@ -107,8 +124,8 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 			statement.setString(3, utente.getEmail());
 			statement.setString(4, utente.getPassword());
 			statement.setBoolean(5, utente.isAmministratore());
-			statement.setDate(6, (Date) utente.getData_nascita());
-			statement.setInt(7, utente.getId_utente());
+			statement.setDate(6, (Date) utente.getDataNascita());
+			statement.setInt(7, utente.getIdUtente());
 			statement.executeUpdate();
 
 			connection.commit();
@@ -118,27 +135,6 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 		}
 	}
 
-	@Override
-	public void doUpdatePassword(String password, int id_utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-		Connection connection = null;
-		PreparedStatement statement = null;
-
-		String insertSQL = "UPDATE " + TABLE + " SET password = ? WHERE id_utente = ?;";
-
-		try {
-			connection = DriverManagerConnectionPool.getConnection();
-			statement = connection.prepareStatement(insertSQL);
-			
-			statement.setString(1, CalculateHash(password));
-			statement.setInt(2, id_utente);
-			statement.executeUpdate();
-
-			connection.commit();
-		} finally{
-			if(statement!= null) statement.close();
-			DriverManagerConnectionPool.releaseConnection(connection);
-		}
-	}
 
 	@Override
 	public boolean doDelete(int id) throws SQLException {
@@ -168,7 +164,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	public UtenteBean doRetrieveByEmail(String email) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
-		UtenteBean bean = new UtenteBean();
+		UtenteBean bean = null;
 		
 		String queryString ="Select * FROM " + TABLE + " WHERE email = ?";
 		
@@ -188,188 +184,43 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	}
 	
 	
-	public static boolean  validate(String email, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException { //verifica se email e password coincidono per il login
-		boolean status = false;
+	/**
+	 * @return <em>UtenteBean</em> that represents the user which match with <em>email</em> and <em>password</em> if he's registered, null otherwise
+	 */
+	public UtenteBean validate(String email, String password) throws SQLException { //verifica se email e password coincidono per il login
 		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		
-		String selectSQL = "SELECT * FROM " + TABLE + " WHERE email = ? and password = ? ;";
-				
-		try {
-			try {
-				connection = DriverManagerConnectionPool.getConnection();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // crea la connessione se non esiste
-			preparedStatement = connection.prepareStatement(selectSQL);
+		PreparedStatement statement=null;
+		UtenteBean bean = null;
 
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, CalculateHash(password));
-
-			System.out.println("validate..." + preparedStatement.toString());
-
-			ResultSet rs = preparedStatement.executeQuery(); // la query viene eseguita
-
-			status=rs.next();
-			
-		} finally {
-
-			try {
-				if(preparedStatement != null ) {
-					preparedStatement.close(); // rilascio risorse
-				}
-			}
-			finally {
-				DriverManagerConnectionPool.releaseConnection(connection); // evita di far reinstanziare ogni volta una connection
-				// la connection viene "conservata" nella collection Pool
-			}
-		}
-
-		return status;
-	}
-	
-	public static boolean checkUser(String email ) throws SQLException { // verifica se utente esiste gi� 
-		boolean flag =false;
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		String checkSQL="Select email from "+TABLE+" where email= ?;" ;
-		
-		try {
-			try {
-				connection = DriverManagerConnectionPool.getConnection();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // crea la connessione se non esiste
-			preparedStatement = connection.prepareStatement(checkSQL);
-
-			preparedStatement.setString(1,email);
-		
-
-			System.out.println("validate..." + preparedStatement.toString());
-
-			ResultSet rs = preparedStatement.executeQuery(); // la query viene eseguita
-			
-			flag=rs.next();
-			
-		} finally {
-
-			try {
-				if(preparedStatement != null ) {
-					preparedStatement.close(); // rilascio risorse
-				}
-			}
-			finally {
-				DriverManagerConnectionPool.releaseConnection(connection); // evita di far reinstanziare ogni volta una connection
-				// la connection viene "conservata" nella collection Pool
-			}
-		}
-
-		return flag;
-	}
-	
-	
-	public static boolean isAmministratore(String email, String password) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		boolean flag = false;
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		UtenteBean bean = new UtenteBean();
-		String selectSQL = "SELECT tipo FROM " +TABLE + " WHERE email = ? and password =? ;";
-				
-		try {
-			try {
-				connection = DriverManagerConnectionPool.getConnection();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // crea la connessione se non esiste
-			preparedStatement = connection.prepareStatement(selectSQL);
-
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, CalculateHash(password)) ;
-
-			System.out.println("validate..." + preparedStatement.toString());
-
-			ResultSet rs = preparedStatement.executeQuery(); // la query viene eseguita
-			if(rs.next())
-			flag = rs.getBoolean("isAmministratore");
-			
-		} finally {
-
-			try {
-				if(preparedStatement != null ) {
-					preparedStatement.close(); // rilascio risorse
-				}
-			}
-			finally {
-				DriverManagerConnectionPool.releaseConnection(connection); // evita di far reinstanziare ogni volta una connection
-				// la connection viene "conservata" nella collection Pool
-			}
-		}
-
-		return flag;
-	}
-	@Override
-	public int getIdUtente() throws SQLException {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		int id_utente = 0;
-		String sql ="Select last_insert_id() as id_ut from utente;";
-		
-		try {
+		String selectSQL = "SELECT * FROM " + TABLE + " WHERE email = ? and password = ?;";		
+		try{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
-			statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement = (PreparedStatement) connection.prepareStatement(selectSQL);
+			statement.setString(1, email);
+			statement.setString(2, password);
 			ResultSet result = statement.executeQuery();
 			while(result.next()){
-				id_utente = result.getInt("id_ut");
+				bean = getBean(result);
 			}
-			return id_utente;
-		}
-		finally {
-			if(statement != null) statement.close();
+		} finally{
+			if(statement!=null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
+		return bean;
 	}
 	
 	
 	private static UtenteBean getBean(ResultSet rs) throws SQLException{
 		UtenteBean bean = new UtenteBean();
 		
-		bean.setId_utente(rs.getInt("id_utente"));
+		bean.setIdUtente(rs.getInt("id_utente"));
 		bean.setNome(rs.getString("nome"));
 		bean.setCognome(rs.getString("cognome"));
 		bean.setEmail(rs.getString("email"));
 		bean.setPassword(rs.getString("password"));
 		bean.setAmministratore(rs.getBoolean("isAmministratore"));
-		bean.setData_nascita(rs.getDate("data_nascita"));
+		bean.setDataNascita(rs.getDate("data_nascita"));
 		
 		return bean;
-	}
-	
-	private static String CalculateHash(String pass) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
-		  // getInstance() method is called with algorithm SHA-512 
-        MessageDigest md = MessageDigest.getInstance("SHA-512"); 
-
-        // digest() method is called 
-        // to calculate message digest of the input string 
-        // returned as array of byte 
-        byte[] messageDigest = md.digest(pass.getBytes()); 
-
-        // Convert byte array into signum representation 
-        BigInteger no = new BigInteger(1, messageDigest); 
-
-        // Convert message digest into hex value 
-        String hashtext = no.toString(16); 
-
-        // Add preceding 0s to make it 32 bit 
-        while (hashtext.length() < 32) { 
-            hashtext = "0" + hashtext; 
-        } 
-
-        // return the HashText 
-        return hashtext; 
-	}
-	
+	}	
 }

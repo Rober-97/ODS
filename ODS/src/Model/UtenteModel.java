@@ -11,16 +11,13 @@ public interface UtenteModel<UtenteBean> {
 	
 	public Collection<UtenteBean> doRetrieveAll() throws SQLException;
 	
-	public void doSave(UtenteBean utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException ;
+	public void doSave(UtenteBean utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException;
 	
 	public void doUpdate(UtenteBean utente) throws SQLException;
 	
 	public boolean doDelete(int id) throws SQLException;
 	
 	public UtenteBean doRetrieveByEmail(String email) throws SQLException;
-
-	int getIdUtente() throws SQLException;
-
-	void doUpdatePassword(String password, int id_utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException ;
-
+	
+	public UtenteBean validate(String email, String password) throws SQLException;
 }
