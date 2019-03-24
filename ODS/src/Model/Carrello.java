@@ -19,9 +19,6 @@ import Model.ProdottoModel;
 @SuppressWarnings("hiding")
 public class Carrello<ProdottoInCarrello> implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	List<ProdottoInCarrello> list;
 	
@@ -50,7 +47,7 @@ public class Carrello<ProdottoInCarrello> implements Serializable{
 	
 	public void rimElemento(int id_prodotto) {
 		for(ProdottoInCarrello p : list) {
-			if(((Model.ProdottoInCarrello)p).getId_prodotto() == id_prodotto) {
+			if(((Model.ProdottoInCarrello)p).getIdProdotto() == id_prodotto) {
 				((Model.ProdottoInCarrello)p).setQuantita(((Model.ProdottoInCarrello)p).getQuantita() - 1);
 				if(((Model.ProdottoInCarrello)p).getQuantita() <= 0)
 					list.remove(p);
@@ -66,34 +63,38 @@ public class Carrello<ProdottoInCarrello> implements Serializable{
 	public float getTotale(){
 		float totale = 0;
 		for(ProdottoInCarrello p : list){
-			totale += ((Model.ProdottoInCarrello)p).getPrezzo_compl();
+			totale += ((Model.ProdottoInCarrello)p).getPrezzoCompl();
 		}
 		return totale;
 	}
 	
 	public void acquista(String carta_credito, int utente, int indirizzo) throws SQLException {
 		ProdottoModel<ProdottoBean> prodottoModel = new ProdottoInOrdineModelDM();
-		OrdineModel<OrdineBean> ordineModel = new OrdineModelDM();
-		OrdinazioneModel ordinazioneModel= new OrdinazioneModelDM();
+		OrdineModel ordineModel = new OrdineModelDM();
+		OrdinazioneModel ordinazioneModel = new OrdinazioneModelDM();
 		OrdineBean ordBean = new OrdineBean();
-		ordBean.setCarta_credito(carta_credito);
+		
+		ordBean.setCartaCredito(carta_credito);
 		ordBean.setUtente(utente);
 		ordBean.setIndirizzo(indirizzo);
-		ordBean.setPagato(true);
 		ordBean.setTotale(this.getTotale());
 		ordBean.setData(new java.sql.Date(new java.util.Date().getTime()));	//getTime di java.util.Date restituisce long al costruttore di java.sql.Date
-		int idOrdine = ordineModel.doSave(ordBean);
+		
+		ordineModel.doSave(ordBean);	//salvo nel db
+		int idOrdine = ordBean.getIdOrdine();	//prelevo l'id assegnato dal db e settato dal metodo doSave
 		
 		for(ProdottoInCarrello prod : list){
-			int id;
 			ProdottoInOrdineBean prodBean = new ProdottoInOrdineBean();
-			prodBean.setId_prodotto(((Model.ProdottoInCarrello)prod).getId_prodotto());
-			prodBean.setPrezzo_compl(((Model.ProdottoInCarrello)prod).getPrezzo_compl());
+			
+			prodBean.setIdProdotto(((Model.ProdottoInCarrello)prod).getIdProdotto());
+			prodBean.setPrezzoCompl(((Model.ProdottoInCarrello)prod).getPrezzoCompl());
 			prodBean.setIva(((Model.ProdottoInCarrello)prod).getIva());
 			prodBean.setQuantita(((Model.ProdottoInCarrello)prod).getQuantita());
 			prodBean.setTaglia(((Model.ProdottoInCarrello)prod).getTaglia().toUpperCase());
-			prodBean.setReso(false);
-			id = prodottoModel.doSave(prodBean);
+			
+			prodottoModel.doSave(prodBean);	//salvo nel db
+			int id = prodBean.getIdProdotto();	//prelevo lid generato dal db e settato dal metodo doSave
+			
 			OrdinazioneBean ordinazioneBean = new OrdinazioneBean(idOrdine, id);
 			ordinazioneModel.doSave(ordinazioneBean);
 		}
