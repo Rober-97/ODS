@@ -4,36 +4,29 @@ public class ProdottoInOrdineBean extends ProdottoBean{
 
 	private static final long serialVersionUID = 1L;
 
-	private int id_prodotto_ordine;
-	private float prezzo_compl;
+	private int idProdottoOrdine;
+	private float prezzoCompl;
 	private int iva;
 	private String taglia;
 	private int quantita;
-	private boolean reso;
 	
-	public ProdottoInOrdineBean() {
-		super();
-		prezzo_compl=0;
-		iva=0;
-		quantita=0;
+
+	public int getIdProdottoOrdine() {
+		return idProdottoOrdine;
 	}
 
-	public int getId_prodotto_ordine() {
-		return id_prodotto_ordine;
-	}
-
-	public void setId_prodotto_ordine(int id_prodotto_ordine) {
-		this.id_prodotto_ordine = id_prodotto_ordine;
+	public void setIdProdottoOrdine(int idProdottoOrdine) {
+		this.idProdottoOrdine = idProdottoOrdine;
 	}
 
 	@Override
-	public float getPrezzo_compl() {
-		return prezzo_compl;
+	public float getPrezzoCompl() {
+		return prezzoCompl;
 	}
 
 	@Override
-	public void setPrezzo_compl(float prezzo_compl) {
-		this.prezzo_compl = prezzo_compl;
+	public void setPrezzoCompl(float prezzoCompl) {
+		this.prezzoCompl = prezzoCompl;
 	}
 
 	public int getIva() {
@@ -58,13 +51,5 @@ public class ProdottoInOrdineBean extends ProdottoBean{
 
 	public void setQuantita(int quantita) {
 		this.quantita = quantita;
-	}
-	
-	public boolean isReso() {
-		return reso;
-	}
-
-	public void setReso(boolean reso) {
-		this.reso = reso;
 	}
 }

@@ -9,18 +9,9 @@ public interface ProdottoModel<ProdottoBean> {
 	
 	public Collection<ProdottoBean> doRetrieveAll() throws SQLException;
 	
-	public int doSave(ProdottoBean prodotto) throws SQLException;
+	public void doSave(ProdottoBean prodotto) throws SQLException;
 	
 	public void doUpdate(ProdottoBean prodotto) throws SQLException;
 	
 	public boolean doDelete(int id_prodotto) throws SQLException;
-
-	Collection<ProdottoBean> doRetrieveAllNotInVendita() throws SQLException;
-
-	Collection<ProdottoBean> doRetrieveAllPrezzoZero() throws SQLException;
-
-
-
-	void doUpdatePrezzo(int id, float prezzo) throws SQLException;
-	
 }

@@ -8,23 +8,23 @@ public class ProdottoInCarrello extends ProdottoBean{
 	private String taglia;
 	
 	public ProdottoInCarrello(ProdottoBean prod){
-		this.setId_prodotto(prod.getId_prodotto());
-		this.setCodice_prodotto(prod.getCodice_prodotto());
+		this.setIdProdotto(prod.getIdProdotto());
+		this.setCodiceProdotto(prod.getCodiceProdotto());
 		this.setDescrizione(prod.getDescrizione());
 		this.setMarca(prod.getMarca());
 		this.setModello(prod.getModello());
 		this.setFoto(prod.getFoto());
 		this.setCategoria(prod.getCategoria());
-		this.setPromozione(prod.getPromozione());
-		this.setPrezzo_compl(prod.getPrezzo_compl());
+		this.setPrezzoCompl(prod.getPrezzoCompl());
 		this.setIva(prod.getIva());
-		this.setIn_vendita(prod.isIn_vendita());
+		this.setInVendita(prod.isInVendita());
 	}
 	
 	public ProdottoInCarrello(){
 
 	}
 
+	
 	public int getQuantita() {
 		return quantita;
 	}
@@ -47,7 +47,7 @@ public class ProdottoInCarrello extends ProdottoBean{
 		if(getClass() != obj.getClass())
 			return false;
 		ProdottoInCarrello other = (ProdottoInCarrello) obj;
-		if(other.getId_prodotto() != this.getId_prodotto())
+		if(other.getIdProdotto() != this.getIdProdotto())
 			return false;
 		if(!other.getTaglia().equalsIgnoreCase(this.getTaglia()))
 			return false;
