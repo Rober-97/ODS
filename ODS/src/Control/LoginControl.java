@@ -37,7 +37,7 @@ public class LoginControl extends HttpServlet {
 	    String p=request.getParameter("password");
 
         try {
-			if(UtenteModelDM.validate(n, p)){
+			if(UtenteModelDM. (n, p)){
 				UtenteBean utente = new UtenteBean();
 				utente = model.doRetrieveByEmail(n);
 				
