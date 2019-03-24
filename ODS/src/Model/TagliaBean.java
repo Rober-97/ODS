@@ -2,20 +2,17 @@ package Model;
 
 public class TagliaBean {
 
-	private int id_prodotto;
+	private int idProdotto;
 	private String taglia;
 	private int quantita;
 	
-	public TagliaBean(){
-		
+
+	public int getIdProdotto() {
+		return idProdotto;
 	}
 
-	public int getId_prodotto() {
-		return id_prodotto;
-	}
-
-	public void setId_prodotto(int id_prodotto) {
-		this.id_prodotto = id_prodotto;
+	public void setIdProdotto(int idProdotto) {
+		this.idProdotto = idProdotto;
 	}
 
 	public String getTaglia() {

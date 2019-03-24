@@ -12,9 +12,4 @@ public interface TagliaModel<TagliaBean> {
 	public void doUpdate(TagliaBean taglia) throws SQLException;
 	
 	public boolean doDelete(TagliaBean taglia) throws SQLException;
-
-	boolean doDelete(Model.TagliaBean taglia) throws SQLException;
-
-	
-
 }

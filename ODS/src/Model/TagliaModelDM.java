@@ -35,25 +35,11 @@ public class TagliaModelDM implements TagliaModel<TagliaBean>{
 		}
 		return listaBean;
 	}
+	
 	@Override
 	public void doSave(TagliaBean taglia) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		int id_prodotto = 0;
-		String sql ="Select last_insert_id() as id_prod from prodotto;";
-		
-		try {
-			connection = (Connection) DriverManagerConnectionPool.getConnection();
-			statement = (PreparedStatement) connection.prepareStatement(sql);
-			ResultSet result = statement.executeQuery();
-			while(result.next()){
-				id_prodotto = result.getInt("id_prod");
-			}
-		}
-			finally {
-				if(statement != null) statement.close();
-				DriverManagerConnectionPool.releaseConnection(connection);
-			}
 			
 		String insertString=" INSERT INTO " + TABLE + " (id_prodotto, taglia, quantita) VALUES(?, ?, ?)";
 		
@@ -61,19 +47,17 @@ public class TagliaModelDM implements TagliaModel<TagliaBean>{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(insertString);
 
-			statement.setInt(1, id_prodotto);
+			statement.setInt(1, taglia.getIdProdotto());
 			statement.setString(2, taglia.getTaglia());
 			statement.setInt(3, taglia.getQuantita());
 			statement.executeUpdate();
-			System.out.println("id ultimo prodotto: " + id_prodotto);
-			connection.commit();
 			
+			connection.commit();			
 		} finally{
 			if(statement != null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
-		}
-
+	}
 
 	@Override
 	public void doUpdate(TagliaBean taglia) throws SQLException {
@@ -87,12 +71,11 @@ public class TagliaModelDM implements TagliaModel<TagliaBean>{
 			statement = (PreparedStatement) connection.prepareStatement(insertString);
 
 			statement.setInt(1, taglia.getQuantita());
-			statement.setInt(2, taglia.getId_prodotto());
+			statement.setInt(2, taglia.getIdProdotto());
 			statement.setString(3, taglia.getTaglia());
 			statement.executeUpdate();
 			
-			connection.commit();
-			
+			connection.commit();	
 		} finally{
 			if(statement != null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
@@ -110,7 +93,7 @@ public class TagliaModelDM implements TagliaModel<TagliaBean>{
 		try {
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(deleteString);
-			statement.setInt(1, taglia.getId_prodotto());
+			statement.setInt(1, taglia.getIdProdotto());
 			statement.setString(2, taglia.getTaglia());
 			
 			result = statement.executeUpdate();
@@ -120,19 +103,16 @@ public class TagliaModelDM implements TagliaModel<TagliaBean>{
 			if(statement!=null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
-		
 		return result != 0;
 	}
 
 	private static TagliaBean getBean(ResultSet rs) throws SQLException{
 		TagliaBean bean = new TagliaBean();
 		
-		bean.setId_prodotto(rs.getInt("id_prodotto"));
+		bean.setIdProdotto(rs.getInt("id_prodotto"));
 		bean.setTaglia(rs.getString("taglia"));
 		bean.setQuantita(rs.getInt("quantita"));
 		
 		return bean;
 	}
-
-	
 }

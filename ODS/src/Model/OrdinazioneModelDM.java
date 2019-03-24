@@ -53,8 +53,6 @@ public class OrdinazioneModelDM implements OrdinazioneModel{
 			if(statement!=null) statement.close();
 			DriverManagerConnectionPool.releaseConnection(connection);
 		}
-		
 		return result != 0;
 	}
-
 }
