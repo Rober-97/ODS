@@ -159,7 +159,7 @@ img {
 
 body{
 
-background: linear-gradient(-90deg, #a08381, #e0d7d6 );
+ background: linear-gradient(-90deg, #a08381, #e0d7d6 );
 }
 	
 .navbar-inverse {
@@ -412,7 +412,7 @@ hover .social{opacity:1;bottom:20px}
 	min-height: 600px;
 	width: 90%;
 	height: 66%;
-	padding-left: 25%;
+	padding-left: 10%;
 }
 
 .bordo1

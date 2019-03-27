@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <link rel="stylesheet" href="css/stile.css">
+   <link rel="stylesheet" href="css/newStile.css">
    <script src="script/jquery.js" ></script>
 </head>
 <body>
@@ -28,6 +29,10 @@
      			autCtrl = "LogoutControl";
      			areaUtenteCtrl = "area_utente.jsp";
      		}
+    	} else {
+    		autButton = "Login";
+        	autCtrl = "login.jsp";
+        	areaUtenteCtrl = "login.jsp";
     	}
     %>
     
@@ -68,9 +73,11 @@
 	}
     %>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    	<span id="logoHeader">
     	<a href= "index.jsp">
-    	<img  src="img/LOGO.jpg" alt="Logo" height="80px" width="200px"> 
+    	<img src="img/LOGO1.jpg" alt="Logo" height="94px" width="250px"> 
     	</a>
+    	</span>
 
     <ul class="nav navbar-nav navbar-right">
     <%

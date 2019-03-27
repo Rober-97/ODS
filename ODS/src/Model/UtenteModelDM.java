@@ -216,7 +216,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 		bean.setCognome(rs.getString("cognome"));
 		bean.setEmail(rs.getString("email"));
 		bean.setPassword(rs.getString("password"));
-		bean.setAmministratore(rs.getBoolean("isAmministratore"));
+		bean.setAmministratore(rs.getBoolean("amministratore"));
 		bean.setDataNascita(rs.getDate("data_nascita"));
 		
 		return bean;
