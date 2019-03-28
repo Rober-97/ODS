@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="css/newStile.css">
 <title>Registrazione Effetuata</title>
 </head>
 <body>
@@ -17,13 +17,17 @@ if(request.getSession().getAttribute("tipo") != null){
 }
 %>	
 	
+<div class="benvenuto">
 	<hr>
+	<h2>
 	Benvenuto <% String h = (String) request.getParameter("nome");%>
 			<% out.println(h); %>
-	<p>Ti confermiamo che la registrazione è stata effettuata con successo,
+	</h2>
+	<h4>Ti confermiamo che la registrazione è stata effettuata con successo,
 	controlla la tua email per confermare il tuo nuovo account!
 	<br>Torna alla <a href="index.jsp">home</a> per iniziare a comprare.
-	
+	</h4>
+</div>	
  <%@ include file="footer.jsp" %>
 </body>
 </html>

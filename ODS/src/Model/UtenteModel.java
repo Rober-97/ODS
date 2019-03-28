@@ -11,7 +11,7 @@ public interface UtenteModel<UtenteBean> {
 	
 	public Collection<UtenteBean> doRetrieveAll() throws SQLException;
 	
-	public void doSave(UtenteBean utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException;
+	public void doSave(UtenteBean utente) throws SQLException;
 	
 	public void doUpdate(UtenteBean utente) throws SQLException;
 	

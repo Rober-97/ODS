@@ -38,7 +38,6 @@ public class LoginControl extends HttpServlet {
 			if(utente != null){				
 //				request.getSession().setAttribute("email", email);  da controllare
 				request.getSession().setAttribute("id", utente.getIdUtente()); //setto l'id in sessione
-//				request.setAttribute("nome", utente.getNome()); //setto il nome nella richiesta per la jsp; da ricontrollare
 				amministratore = utente.isAmministratore();
 				request.getSession().setAttribute("amministratore", amministratore);
 				if(amministratore){
@@ -51,9 +50,10 @@ public class LoginControl extends HttpServlet {
 			} else {  
 			    out.print("<p style=\"color:red\">Spiacente E-Mail o password invalidi, riprova</p><br>");  
 			    out.print("<p style=\"color:blue\">Nuovo utente? <a href=\"registrazione.jsp\">Registrati subito!</a> </br></p>");
+			    RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");  
+				rd.include(request,response);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         out.close();  

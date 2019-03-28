@@ -46,7 +46,7 @@ if(request.getSession().getAttribute("tipo") != null){
      <div class="form-group input-group">
 		<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-        <input type="date" class="form-control" placeholder="Data di nascita dd/mm/yy" name="data_nascita" required oninput="controlloData()" id="uno" >
+        <input type="date" class="form-control" placeholder="Data di nascita dd/mm/yy" name="data_nascita" min="1900-01-01" max="2005-04-01" required oninput="controlloData()" id="uno" >
    		 </div>
     </div> <!-- form-group// -->
     <div class="form-group input-group">

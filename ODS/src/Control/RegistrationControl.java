@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import Model.*;
 
-/*
+/**
  * implementa la registrazione, è chiamata da registrazione.jsp
  * da ricontrollare
  */
@@ -29,17 +29,11 @@ public class RegistrationControl extends HttpServlet {
 	UtenteModel<UtenteBean> model = new UtenteModelDM();
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// prendo il parametro action della form , che equivale al nome della servlet dd(?)
 		response.setContentType("text/html");
-		System.out.println("Mi ha chiamato il bottone registrazione");
-		System.out.println(request.getParameter("nome"));
-		HttpSession session = request.getSession(false);
-
 		try {
 				String nome = request.getParameter("nome");
 				String cognome = request.getParameter("cognome");
 				String sData= request.getParameter("data_nascita");
-				System.out.println(sData);
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				Date data_nascita = new Date(formatter.parse(sData).getTime());
 
@@ -51,34 +45,28 @@ public class RegistrationControl extends HttpServlet {
 				newUser.setCognome(cognome);
 				newUser.setEmail(eMail);
 				newUser.setPassword(password);
-				newUser.setData_nascita(data_nascita);
+				newUser.setDataNascita(data_nascita);
 				newUser.setAmministratore(false);
-						
-				if(UtenteModelDM.checkUser(eMail)) {
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registrationFailed.jsp");
-					dispatcher.forward(request, response);
-				} else {	
-					model.doSave(newUser);
-					 session.setAttribute("email", eMail);
-					 session.setAttribute("tipo", 1);
-					 session.setAttribute("id", model.getIdUtente());
-				  //   session.setAttribute("id", newUser.getId_utente()); //assegno l'id
-					
-					System.out.println("Ciao");
-					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registrationSuccess.jsp");
-					dispatcher.forward(request, response);
-				}
 				
+				model.doSave(newUser);
+//				request.getSession().setAttribute("email", eMail); da controllare
+				request.getSession().setAttribute("amministratore", newUser.isAmministratore());
+				request.getSession().setAttribute("id", newUser.getIdUtente());
+					
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registrationSuccess.jsp");
+				dispatcher.forward(request, response);				
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registrationFailed.jsp");
+			dispatcher.forward(request, response);
+			
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registrationFailed.jsp");
+			dispatcher.forward(request, response);
+
 			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-				
+		}						
 	}
 }

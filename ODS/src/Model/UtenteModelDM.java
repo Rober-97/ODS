@@ -66,7 +66,7 @@ public class UtenteModelDM implements UtenteModel<UtenteBean> {
 	 * @param <em>utente</em> The user to be saved;
 	 * Save the user into DB and set the attribute <em>idUtente</em> of <em>utente</em> to the id allocated in the DB.
 	 */
-	public void doSave(UtenteBean utente) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void doSave(UtenteBean utente) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement=null;
 

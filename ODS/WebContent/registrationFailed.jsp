@@ -16,10 +16,11 @@ if(request.getSession().getAttribute("tipo") != null){
 		response.sendRedirect("index.jsp");
 }
 %>
-
-	<p>Ops, abbiamo riscontrato un problema durante la registrazione, per favore, riprova.
-
-
+<div class="benvenuto">
+<hr>
+	<h4>Ops, abbiamo riscontrato un problema durante la registrazione, per favore, <a href="registrazione.jsp">riprova</a>.
+	</h4>
+</div>
  <%@ include file="footer.jsp" %>
 </body>
 </html>
