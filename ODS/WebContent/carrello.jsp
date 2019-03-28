@@ -1,12 +1,12 @@
 <%
-Carrello cart = (Carrello) session.getAttribute("cart"); //a%>
+Carrello cart = (Carrello) session.getAttribute("cart");%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="java.util.*, Model.*, java.text.DecimalFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>CARRELLO 1</title>
+<title>CARRELLO</title>
 <link href="css/css/bootstrap.min.css" rel="stylesheet" >
 </head>
 <body>
@@ -52,8 +52,6 @@ if(request.getSession().getAttribute("tipo") != null){
 	  
 <%
 			for(ProdottoInCarrello beancart : prodcart) {
-				System.out.println(prodcart);
-		
 %>
 
 	  <tr>	 
@@ -80,9 +78,7 @@ if(request.getSession().getAttribute("tipo") != null){
  </form>
 
 <form method="get" action="ProcediAcquisto" name ="ProcediAcquisto" >
-<input type="hidden" name="action" value="ProcediAcquisto">
 <input type="submit" value="Acquista!" >
-
 </form>
 
 	<%

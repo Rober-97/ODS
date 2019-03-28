@@ -1,7 +1,6 @@
 package Control;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import Model.*;
 
-/**a
+/**
  * Servlet implementation class CartControl
  */
 @WebServlet("/CartControl")
@@ -26,9 +25,8 @@ public class CartControl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		Carrello<ProdottoBean> cart = (Carrello<ProdottoBean>)request.getSession().getAttribute("cart");
-
 		if(cart == null) {
 			cart = new Carrello<ProdottoBean>();
 			request.getSession().setAttribute("cart", cart);
@@ -36,11 +34,9 @@ public class CartControl extends HttpServlet {
 		
 		String invia = request.getParameter("invia");
 		if(invia != null) {
-			if(invia.equalsIgnoreCase("Aggiungi al carrello")) {
-				System.out.println("aggiungere");
+			if(invia.equals("Aggiungi al carrello")) {
 				ProdottoBean prod = (ProdottoBean) request.getSession().getAttribute("product");
 				String taglia = (String) request.getParameter("beantype");
-				System.out.println(taglia);
 				ProdottoInCarrello prodotto = new ProdottoInCarrello(prod);
 				prodotto.setQuantita(1);
 				prodotto.setTaglia(taglia);
@@ -48,26 +44,14 @@ public class CartControl extends HttpServlet {
 			} else if(invia.equalsIgnoreCase("rimuovi")) {
 				int id = Integer.parseInt(request.getParameter("id"));
 				cart.rimElemento(id);
-				System.out.println("rimuovo elemento con id "+ id);
 			}				
 		} else {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-			dispatcher.forward(request, response); // passo la chiamata alla jsp				
+			dispatcher.forward(request, response); // passo la chiamata alla jsp, da rivedere
 		}
 		request.getSession().setAttribute("cart", cart);
-		request.setAttribute("cart", cart);
 				
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/carrello.jsp");
-		dispatcher.forward(request, response); // passo la chiamata alla jsp
-		
+		dispatcher.forward(request, response); // passo la chiamata alla jsp	
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }
