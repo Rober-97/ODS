@@ -46,25 +46,25 @@
      
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><font color= midnightblue>UOMO</font> <span class="caret"></span></a>
         <ul class="dropdown-menu"> 
-          <li><a href="CategoriaControl?categoria=giacca.uomo">Giacche</a></li>
-          <li><a href="CategoriaControl?categoria=jeans.uomo">Jeans</a></li>
-          <li><a href="CategoriaControl?categoria=camicie.uomo">Camicie</a></li>
-          <li><a href="CategoriaControl?categoria=intimo.uomo">Intimo</a></li>
-          <li><a href="CategoriaControl?categoria=shirt.uomo">Shirt e felpe</a></li>
-          <li><a href="CategoriaControl?categoria=cappotti.uomo">Cappotti</a></li>
-          <li><a href="CategoriaControl?categoria=pantaloni.uomo">Pantaloni</a></li>
+          <li><a href="CatalogoControl?categoria=giacca.uomo">Giacche</a></li>
+          <li><a href="CatalogoControl?categoria=jeans.uomo">Jeans</a></li>
+          <li><a href="CatalogoControl?categoria=camicie.uomo">Camicie</a></li>
+          <li><a href="CatalogoControl?categoria=intimo.uomo">Intimo</a></li>
+          <li><a href="CatalogoControl?categoria=shirt.uomo">Shirt e felpe</a></li>
+          <li><a href="CatalogoControl?categoria=cappotti.uomo">Cappotti</a></li>
+          <li><a href="CatalogoControl?categoria=pantaloni.uomo">Pantaloni</a></li>
         </ul>
       </li>
       
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><font color= #f2baa1>DONNA</font><span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="CategoriaControl?categoria=giacca.donna">Giacche</a></li>
-          <li><a href="CategoriaControl?categoria=jeans.donna">Jeans</a></li>
-          <li><a href="CategoriaControl?categoria=camicie.donna">Camicie</a></li>
-          <li><a href="CategoriaControl?categoria=intimo.donna">Intimo</a></li>
-          <li><a href="CategoriaControl?categoria=shirt.donna">Shirt e felpe</a></li>
-          <li><a href="CategoriaControl?categoria=cappotti.donna">Cappotti</a></li>
-          <li><a href="CategoriaControl?categoria=pantaloni.donna">Pantaloni</a></li>
+          <li><a href="CatalogoControl?categoria=giacca.donna">Giacche</a></li>
+          <li><a href="CatalogoControl?categoria=jeans.donna">Jeans</a></li>
+          <li><a href="CatalogoControl?categoria=camicie.donna">Camicie</a></li>
+          <li><a href="CatalogoControl?categoria=intimo.donna">Intimo</a></li>
+          <li><a href="CatalogoControl?categoria=shirt.donna">Shirt e felpe</a></li>
+          <li><a href="CatalogoControl?categoria=cappotti.donna">Cappotti</a></li>
+          <li><a href="CatalogoControl?categoria=pantaloni.donna">Pantaloni</a></li>
         </ul>
       </li>
             
@@ -72,7 +72,6 @@
     <%
 	}
     %>
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
     	<span id="logoHeader">
     	<a href= "index.jsp">
     	<img src="img/LOGO1.jpg" alt="Logo" height="94px" width="250px"> 
