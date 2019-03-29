@@ -34,7 +34,7 @@ if(request.getSession().getAttribute("tipo") != null){
 		if((indirizzi != null) && (indirizzi.size() > 0)) {
 			Iterator<IndirizzoBean> it = indirizzi.iterator();
 %>
- <form action="VerificaIndirizzo" method="form">
+ <form action="ProcediIndirizzo" method="post">
  <%		
 			while(it.hasNext()) {
 				IndirizzoBean bean = (IndirizzoBean) it.next();
@@ -60,7 +60,7 @@ if(request.getSession().getAttribute("tipo") != null){
 
 	  	  
 	      <th scope="row">
-	      			<input type="radio" name="indirizzo" value= "<%= bean.getIdIndirizzo()%>"><br>  
+	      			<input type="radio" name="indirizzo" required value= "<%= bean.getIdIndirizzo()%>"><br>  
 	      		
 	      </th>
 	      <td><%= bean.getCitta()%></td>

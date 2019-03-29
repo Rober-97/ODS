@@ -138,7 +138,7 @@ public class CartaDiCreditoModelDM implements CartaDiCreditoModel<CartaDiCredito
 		Connection connection = null;
 		PreparedStatement statement=null;
 		ArrayList<CartaDiCreditoBean> bean = new ArrayList<CartaDiCreditoBean>();
-		
+
 		String queryString ="Select * FROM " + TABLE + " WHERE utente = ?";
 		
 		try{
