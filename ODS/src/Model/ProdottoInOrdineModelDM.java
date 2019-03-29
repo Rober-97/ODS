@@ -152,7 +152,7 @@ public class ProdottoInOrdineModelDM implements ProdottoModel<ProdottoBean>{
 		Collection<ProdottoBean> listaBean = new ArrayList<ProdottoBean>();
 
 		String queryString ="Select " + TABLE_1 + ".id_prodotto, codice_prodotto, descrizione, marca, modello, "
-			+ "categoria, foto, id_prodotto_ordine, " + TABLE_2 + ".prezzo_compl, " + TABLE_2 + ".iva, taglia, "
+			+ "in_vendita, categoria, foto, id_prodotto_ordine, " + TABLE_2 + ".prezzo_compl, " + TABLE_2 + ".iva, taglia, "
 			+ "quantita FROM " + TABLE_1 + " join " + TABLE_2 + " join ORDINAZIONE WHERE ordine = ? and ordine = "
 			+ "id_prodotto_ordine and " + TABLE_1 + ".id_prodotto = " + TABLE_2 + ".id_prodotto";
 		
@@ -175,10 +175,11 @@ public class ProdottoInOrdineModelDM implements ProdottoModel<ProdottoBean>{
 		ProdottoBean bean = new ProdottoInOrdineBean();
 		
 		bean.setIdProdotto(rs.getInt("PRODOTTO.id_prodotto"));
-		bean.setCodiceProdotto(rs.getString("promozione"));
+		bean.setCodiceProdotto(rs.getString("codice_prodotto"));
 		bean.setDescrizione(rs.getString("descrizione"));
 		bean.setMarca(rs.getString("marca"));
 		bean.setModello(rs.getString("modello"));
+		bean.setInVendita(rs.getBoolean("in_vendita"));
 		bean.setFoto(rs.getString("foto"));
 		bean.setCategoria(rs.getString("categoria"));
 		((ProdottoInOrdineBean)bean).setIdProdottoOrdine(rs.getInt("id_prodotto_ordine"));
