@@ -18,7 +18,7 @@ if(request.getSession().getAttribute("tipo") != null){
 }
 %>
 <% 
-	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getAttribute("indirizzi");
+	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getSession().getAttribute("indirizzi");
 %>	 
 
 <hr>

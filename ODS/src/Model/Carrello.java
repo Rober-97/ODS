@@ -93,7 +93,7 @@ public class Carrello<ProdottoInCarrello> implements Serializable{
 			prodBean.setTaglia(((Model.ProdottoInCarrello)prod).getTaglia().toUpperCase());
 			
 			prodottoModel.doSave(prodBean);	//salvo nel db
-			int id = prodBean.getIdProdotto();	//prelevo lid generato dal db e settato dal metodo doSave
+			int id = prodBean.getIdProdottoOrdine();	//prelevo lid generato dal db e settato dal metodo doSave
 			
 			OrdinazioneBean ordinazioneBean = new OrdinazioneBean(idOrdine, id);
 			ordinazioneModel.doSave(ordinazioneBean);

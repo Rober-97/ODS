@@ -19,7 +19,7 @@ if(request.getSession().getAttribute("tipo") != null){
 }
 %>
 <% 
-	ArrayList<CartaDiCreditoBean> carte = (ArrayList<CartaDiCreditoBean>) request.getAttribute("carte");
+	ArrayList<CartaDiCreditoBean> carte = (ArrayList<CartaDiCreditoBean>) request.getSession().getAttribute("carte");
 %>	 
 
 <hr>
@@ -40,9 +40,8 @@ if(request.getSession().getAttribute("tipo") != null){
 <%		
 			while(it.hasNext()) {
 				CartaDiCreditoBean bean = (CartaDiCreditoBean) it.next();
-				System.out.println(bean.getNumeroCarta());
 %>
- <form action="VerificaCarta">
+ <form action="ProcediCarta">
 	 <table class="table">
 	  <thead class="thead-dark">
 	    <tr>

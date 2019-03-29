@@ -16,23 +16,26 @@ import Model.*;
 @WebServlet("/ProcediIndirizzo")
 public class ProcediIndirizzo extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	CartaDiCreditoModel model = new CartaDiCreditoModelDM();
-
+	CartaDiCreditoModel cModel = new CartaDiCreditoModelDM();
+	IndirizzoModelDM iModel = new IndirizzoModelDM();
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		//aggiungere controllo log
 		int idIndirizzo = Integer.parseInt(request.getParameter("indirizzo"));
-		request.getSession().setAttribute("idIndirizzo", idIndirizzo);
+		IndirizzoBean indirizzo = null;
 		
 		int idUtente = (int) request.getSession().getAttribute("id");
 		Collection<CartaDiCreditoBean> carte = null;
 		try {
-			carte = model.doRetrieveByUtente(idUtente);
+			indirizzo = iModel.doRetrieveByKey(idIndirizzo);
+			carte = cModel.doRetrieveByUtente(idUtente);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			//aggiungere dispatch alla pagina di errore
 		}
-		request.setAttribute("carte", carte);
+		request.getSession().setAttribute("indirizzo", indirizzo);
 		
+		request.getSession().setAttribute("carte", carte);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("carrello_carta.jsp");
 		dispatcher.forward(request, response);			
 	}

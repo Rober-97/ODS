@@ -43,7 +43,7 @@ public class ProcediAcquisto extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace(); // aggiungere dispatch alla pagina di errore
 			}
-			request.setAttribute("indirizzi", indirizzi);
+			request.getSession().setAttribute("indirizzi", indirizzi);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("carrello_indirizzo.jsp");
 			dispatcher.forward(request, response);			
 		}
