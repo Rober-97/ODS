@@ -18,7 +18,6 @@
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active" style="">
@@ -33,13 +32,6 @@
       <div class="carousel-caption d-none d-md-block">
     <a class="bordo box bounceIn"  href="CategoriaControl?shirt.uomo"> <h2>GUARDA ORA</h2> </a>
     <p class="bordo" >Disponibile la nuova collezione di felpe</p>
-  </div>
-    </div>
-    <div class="carousel-item">
-      <img id="sasa" class="d-block w-100" src="img/lolo.jpg" alt="Third slide">
-      <div class="carousel-caption d-none d-md-block">
-    <a class="bordo1" href="CategoriaControl?borse.accessori"> <h2>GUARDA ORA</h2> </a>
-    <p class="bordo">-10% su tutte le borse</p>
   </div>
     </div>
   </div>
