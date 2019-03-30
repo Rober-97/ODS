@@ -23,7 +23,7 @@
      		if(amministratore){
      			autButton = "Logout";
      			autCtrl = "LogoutControl";
-     			areaUtenteCtrl = "amministratore_page.jsp";
+     			areaUtenteCtrl = "amministratorePage.jsp";
      		} else {
      			autButton = "Logout";
      			autCtrl = "LogoutControl";

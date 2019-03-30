@@ -41,7 +41,7 @@ public class LoginControl extends HttpServlet {
 				amministratore = utente.isAmministratore();
 				request.getSession().setAttribute("amministratore", amministratore);
 				if(amministratore){
-					RequestDispatcher rd=request.getRequestDispatcher("/magazzinierePage.jsp");  
+					RequestDispatcher rd=request.getRequestDispatcher("/amministratorePage.jsp");  
 					rd.forward(request,response);
 				} else {
 					RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");  

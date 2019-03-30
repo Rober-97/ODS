@@ -66,7 +66,7 @@ public class ProdottoModelDM implements ProdottoModel<ProdottoBean>{
 		PreparedStatement statement=null;
 		Collection<ProdottoBean> listaBean = new ArrayList<ProdottoBean>();
 		
-		String queryString ="Select * FROM " + TABLE_1 + "WHERE in_vendita = true";
+		String queryString ="Select * FROM " + TABLE_1 + " WHERE in_vendita = true";
 		try{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(queryString);
@@ -90,10 +90,11 @@ public class ProdottoModelDM implements ProdottoModel<ProdottoBean>{
 		PreparedStatement statement=null;
 		Collection<ProdottoBean> listaBean = new ArrayList<ProdottoBean>();
 		
-		String queryString ="Select * FROM " + TABLE_1 + "WHERE in_vendita = false";
+		String queryString ="Select * FROM " + TABLE_1 + " WHERE in_vendita = ?;";
 		try{
 			connection = (Connection) DriverManagerConnectionPool.getConnection();
 			statement = (PreparedStatement) connection.prepareStatement(queryString);
+			statement.setBoolean(1, false);
 			ResultSet result = statement.executeQuery();
 			while(result.next()){
 				listaBean.add(getBean(result));
@@ -157,7 +158,7 @@ public class ProdottoModelDM implements ProdottoModel<ProdottoBean>{
 		Connection connection = null;
 		PreparedStatement statement = null;
 		
-		String insertString_1=" UPDATE " + TABLE_1 + " SET codice_prodotto = ?, decrizione = ?, marca = ?, modello = ?, "
+		String insertString_1=" UPDATE " + TABLE_1 + " SET codice_prodotto = ?, descrizione = ?, marca = ?, modello = ?, "
 				+ "prezzo_compl = ?, iva = ?, in_vendita = ?, categoria = ?, foto = ? WHERE id_prodotto = ?;";
 		
 		try{ 
@@ -173,7 +174,7 @@ public class ProdottoModelDM implements ProdottoModel<ProdottoBean>{
 			statement.setBoolean(7, prodotto.isInVendita());
 			statement.setString(8, prodotto.getCategoria());
 			statement.setString(9, prodotto.getFoto());
-			statement.setInt(11, prodotto.getIdProdotto());
+			statement.setInt(10, prodotto.getIdProdotto());
 			statement.executeUpdate();
 			
 			connection.commit();
