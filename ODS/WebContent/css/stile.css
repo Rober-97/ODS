@@ -590,25 +590,21 @@ table{
 }
 
 .contenitore {
-	border-radius: 30px;
+	border-radius: 20px;
 	font-style: italic !important;
 	font-family: Gerogia, "Times New Roman", Times, serif;
 	color: black !important;
 	 border-width: thin;
-	 border-style: solid;
-	 border-color: white;
 	 width: 70%;
-	 padding-top: 2px;
-	 padding-right: 20px;
-	 padding-bottom: 20px;
-	 padding-left: 20px;
-	font-color: black;
+	 padding-top: 1%;
+	 padding-right: 2%;
+	 padding-left: 2%;
 	 margin-left: 20px;
-	 border-style: dashed;
+	 border-style: solid;
 	 text-align: center;
 	 margin:auto;
-	font-size: 100%;
-	background-color: #d90000;
+	font-size: 120%;
+	background-color: black;
 
 }
 

@@ -15,6 +15,7 @@
  
     <%! String autButton = "Login";
     	String autCtrl = "login.jsp";
+    	String areaUtenteCtrl = "login.jsp";
     	boolean amministratore = false;
     %>
     <%	if(session.getAttribute("amministratore") != null){
@@ -22,15 +23,20 @@
      		if(amministratore){
      			autButton = "Logout";
      			autCtrl = "LogoutControl";
+     			areaUtenteCtrl = "amministratore_page.jsp";
      		} else {
      			autButton = "Logout";
      			autCtrl = "LogoutControl";
+     			areaUtenteCtrl = "area_utente.jsp";
      		}
     	} else {
     		autButton = "Login";
         	autCtrl = "login.jsp";
-     	}
+        	areaUtenteCtrl = "login.jsp";
+    	}
     %>
+    
+
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
 	<%
@@ -80,7 +86,7 @@
     <%
 	}
     %>
-      <li><a href="area_utente.jsp"><font color= GRAY><span class="glyphicon glyphicon-user" name="areaUtente"></span> Area Utente</font></a></li>
+      <li><a href=<%= areaUtenteCtrl %>><font color= GRAY><span class="glyphicon glyphicon-user" name="areaUtente"></span> Area Utente</font></a></li>
       <li><a href= <%= autCtrl %> ><font color= GRAY><span class="glyphicon glyphicon-log-in"></span> <%= autButton %></font></a></li>
       
     </ul>
