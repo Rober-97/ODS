@@ -12,10 +12,7 @@
 <body>
 <%@ include file="header.jsp" %>
 <%
-String email= (String) session.getAttribute("email");
-if (email != null)
-	response.sendRedirect("index.jsp"); // 
-else {}
+
 %>
 
 <form action="LoginControl" method="post" name="login">

@@ -11,13 +11,7 @@
 
 <%@ include file="header.jsp" %>
 <%@ page import="java.util.Collection, java.util.Iterator, Model.*, java.text.DecimalFormat" %>
-<%
-if(request.getSession().getAttribute("tipo") != null){
-	int tipo = (int) session.getAttribute("tipo");
-	if( tipo ==2 || tipo ==3 || tipo == 4)
-		response.sendRedirect("index.jsp");
-}
-%>
+
 
 <%
     	Collection<ProdottoBean> products = (Collection<ProdottoBean>) request.getAttribute("prodotti");

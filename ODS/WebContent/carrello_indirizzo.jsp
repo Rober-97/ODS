@@ -11,11 +11,7 @@
 <%@ include file="header.jsp" %>
 <%@ page import="java.util.ArrayList, java.util.Iterator, Model.*" %>
 <%
-if(request.getSession().getAttribute("tipo") != null){
-	int tipo = (int) session.getAttribute("tipo");
-	if( tipo ==2 || tipo ==3 || tipo == 4)
-		response.sendRedirect("index.jsp");
-}
+
 %>
 <% 
 	ArrayList<IndirizzoBean> indirizzi = (ArrayList<IndirizzoBean>) request.getSession().getAttribute("indirizzi");
