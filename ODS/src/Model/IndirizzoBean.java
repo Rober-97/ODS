@@ -93,19 +93,16 @@ public class IndirizzoBean implements Serializable {
 		if(this.getClass() != otherObject.getClass())
 			return false;
 		IndirizzoBean a = (IndirizzoBean) otherObject;
-		if(this.idIndirizzo != a.getIdIndirizzo())
+		if(!this.provincia.equalsIgnoreCase(a.getProvincia()))
 			return false;
-		if(this.provincia != a.getProvincia())
+		if(!this.cap.equalsIgnoreCase(a.getCap()))
 			return false;
-		if(this.cap != a.getCap())
+		if(!this.citta.equalsIgnoreCase(a.getCitta()))
 			return false;
-		if(this.citta != a.getCitta())
+		if(!this.via.equalsIgnoreCase(a.getVia()))
 			return false;
-		if(this.via != a.getVia())
+		if(!this.cellulare.equalsIgnoreCase(a.getCellulare()))
 			return false;
-		if(this.cellulare != a.getCellulare())
-			return false;
-		
 		return true;
 	}
 }
