@@ -10,7 +10,6 @@ $(document).ready(function(){// caricato il documento
 	$('#XL').toggle();//nasconde i radio button delle taglie 
 	$('h5.sizes').hide();
 	$('#aggiungi').prop("disabled", true);//disabilita il tasto aggiungi al carrello
-	$("h5.sizes").show();
 });
 
 
@@ -18,7 +17,8 @@ var idProdotto = $('#idProdotto').val();
 jQuery.get('CercaTagliaControl', {"idProdotto" : idProdotto}, function(resp){
 	$.each(resp, function(i, item){
 		var id = '#' + item;
-//		alert(id);
+		$('#aggiungi').prop("disabled", false);
+		$("h5.sizes").show();
 		$(id).toggle();
 	})
 });
