@@ -11,7 +11,7 @@
 
 <body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<%@ include file="header.jsp" %>
@@ -51,16 +51,18 @@
 						<p class="product-description"><%=prod.getDescrizione() %></p>
 						<h4 class="price">Prezzo: &euro; <%= formatter.format(prod.getPrezzoCompl()) %></h4>
 						<form>
+						<input id=idProdotto type=hidden name=id value=<%=prod.getIdProdotto()%>>
 						<h5 class="sizes" name="taglia">sizes:
-							<input type="radio" name="beantype" checked value ="S" class="size" data-toggle="tooltip" >S</input> 
-							<input type="radio" name="beantype" value ="M"  class="size" data-toggle="tooltip" >M</input> 
-							<input type="radio" name="beantype" value ="L"  class="size" data-toggle="tooltip" >L</input> 
-							<input type="radio" name="beantype" value ="XL"  class="size" data-toggle="tooltip" >XL</input>
+							<span class="taglia" id="XS"><input type="radio" name="beantype" required value ="XS" class="size" data-toggle="tooltip" >XS</input></span>
+							<span class="taglia" id="S"><input type="radio" name="beantype" required value ="S" class="size" data-toggle="tooltip" >S</input></span>
+							<span class="taglia" id="M"><input type="radio" name="beantype" required value ="M"  class="size" data-toggle="tooltip" >M</input></span>
+							<span class="taglia" id="L"><input type="radio" name="beantype" required value ="L"  class="size" data-toggle="tooltip" >L</input</span>
+							<span class="taglia" id="XL"><input type="radio" name="beantype" required value ="XL"  class="size" data-toggle="tooltip" >XL</input></span>
 						</h5>
 				</form>	
 						
 						<div class="action">
-								<input type = "submit" name = "invia" value = "Aggiungi al carrello"></input>
+								<input id=aggiungi type = "submit" name = "invia" value = "Aggiungi al carrello"></input>
 							
 						</div>
 					</div>
@@ -71,5 +73,7 @@
 	</form>
 
 	<%@include file="footer.jsp" %>
+	
+<script src=scripts/CaricaTaglie.js></script>
 </body>
 </html>
