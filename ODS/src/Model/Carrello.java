@@ -69,7 +69,9 @@ public class Carrello<ProdottoInCarrello> implements Serializable{
 	}
 	
 	public void acquista(String carta_credito, int utente, int indirizzo) throws SQLException {
-		ProdottoModel<ProdottoBean> prodottoModel = new ProdottoInOrdineModelDM();
+		ProdottoModel<ProdottoBean> prodottoOModel = new ProdottoInOrdineModelDM();
+		ProdottoModelDM prodottoModel = new ProdottoModelDM();
+		TagliaModelDM tagliaModel = new TagliaModelDM();
 		OrdineModel ordineModel = new OrdineModelDM();
 		OrdinazioneModel ordinazioneModel = new OrdinazioneModelDM();
 		OrdineBean ordBean = new OrdineBean();
@@ -92,9 +94,11 @@ public class Carrello<ProdottoInCarrello> implements Serializable{
 			prodBean.setQuantita(((Model.ProdottoInCarrello)prod).getQuantita());
 			prodBean.setTaglia(((Model.ProdottoInCarrello)prod).getTaglia().toUpperCase());
 			
-			prodottoModel.doSave(prodBean);	//salvo nel db
+			prodottoOModel.doSave(prodBean);	//salvo nel db
 			int id = prodBean.getIdProdottoOrdine();	//prelevo lid generato dal db e settato dal metodo doSave
 			
+			ProdottoBean prodotto = prodottoModel.doRetrieveByKey(prodBean.getIdProdotto());
+			//da completare
 			OrdinazioneBean ordinazioneBean = new OrdinazioneBean(idOrdine, id);
 			ordinazioneModel.doSave(ordinazioneBean);
 		}
